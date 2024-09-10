@@ -15,6 +15,7 @@ SUPABASE_KEY=<your-supabase-key>
 ```
 
 3. Use Node 22 or later (to get the `--env-file` support) (e.g. `nvm use 22`)
+4. Install dependencies using `npm install`
 
 ### Scenario 1: NodeNext/Node16 module resolution in tsconfig.json
 
@@ -71,6 +72,13 @@ Realtime server did not respond in time.
 
 Which means things are working correctly now.
 
+5. You can also fix by editing the `package.json` inside `node_modules/@supabase/realtime-js` and removing the `"type": "module"` field, which will make the package resolve correctly.:
+
+```sh
+npm run build:esm:nofix
+npm run start:esm
+```
+
 ### Scenario 3: ESM module resolution in Node.js when bundling with esbuild (and keeping `@supabase/realtime-js` external)
 
 1. Build the project using `npm run build:esm:nofix:external`
@@ -120,6 +128,13 @@ This is because `dist/module/index.js` does an import of `RealtimeClient` withou
 import RealtimeClient from "./RealtimeClient";
 ```
 
+5. Again, if you remove the `"type": "module"` field from the `package.json` inside `node_modules/@supabase/realtime-js`, the package will resolve correctly:
+
+```sh
+npm run build:esm:nofix:external
+npm run start:esm
+```
+
 ### Scenario 4: Bundling with to CJS with esbuild
 
 1. Build the project using `npm run build:cjs`, which tries to bundle the project to CJS (and using the `tsconfig.cjs.json` file as well), which outputs this warning:
@@ -164,4 +179,11 @@ Instead either rename index.js to end in .cjs, change the requiring code to use 
     at Object.<anonymous> (/Users/eric/code/triggerdotdev/reproductions/supabase-realtime-js-esbuild/dist/index.cjs:4:26) {
   code: 'ERR_REQUIRE_ESM'
 }
+```
+
+The only fix is to remove the `"type": "module"` field from the `package.json` inside `node_modules/@supabase/realtime-js`:
+
+```sh
+npm run build:cjs
+npm run start:cjs
 ```
