@@ -1,0 +1,23 @@
+{
+  "type": "module",
+  "dependencies": {
+    "@supabase/realtime-js": "^2.10.5",
+    "@supabase/supabase-js": "^2.45.3",
+    "esbuild": "^0.23.1",
+    "resolve": "^1.22.8",
+    "tsx": "^4.19.0"
+  },
+  "scripts": {
+    "build:esm:fix": "rm -rf dist && FIX=1 tsx build.ts",
+    "build:esm:nofix": "rm -rf dist && tsx build.ts",
+    "build:esm:nofix:external": "rm -rf dist && EXTERNALIZE=1 tsx build.ts",
+    "build:esm:fix:external": "rm -rf dist && EXTERNALIZE=1 FIX=1 tsx build.ts",
+    "build:cjs": "rm -rf dist && FORMAT=cjs tsx build.ts",
+    "build:cjs:external": "rm -rf dist && EXTERNALIZE=1 FORMAT=cjs tsx build.ts",
+    "start:esm": "node --env-file .env dist/index.mjs",
+    "start:cjs": "node --env-file .env dist/index.cjs"
+  },
+  "devDependencies": {
+    "@types/resolve": "^1.20.6"
+  }
+}

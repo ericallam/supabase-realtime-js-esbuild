@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/index.ts"],
+  "sourcesContent": ["import { RealtimeClient } from \"@supabase/realtime-js\";\n\nconst client = new RealtimeClient(process.env.SUPABASE_URL!, {\n  params: {\n    apikey: process.env.SUPABASE_KEY,\n  },\n});\n\nconst channel = client.channel(\"test-channel\", { config: {} });\n\n// @ts-expect-error - Because the types are wrong, the type of RealtimeClient is not resolved when using Node16/NodeNext\nchannel.subscribe((status, err) => {\n  if (status === \"SUBSCRIBED\") {\n    console.log(\"Connected!\");\n  }\n\n  if (status === \"CHANNEL_ERROR\") {\n    console.log(`There was an error subscribing to channel: ${err?.message}`);\n  }\n\n  if (status === \"TIMED_OUT\") {\n    console.log(\"Realtime server did not respond in time.\");\n  }\n\n  if (status === \"CLOSED\") {\n    console.log(\"Realtime channel was unexpectedly closed.\");\n  }\n});\n"],
+  "mappings": ";;;AAAA,yBAA+B;AAE/B,IAAM,SAAS,IAAI,kCAAe,QAAQ,IAAI,cAAe;AAAA,EAC3D,QAAQ;AAAA,IACN,QAAQ,QAAQ,IAAI;AAAA,EACtB;AACF,CAAC;AAED,IAAM,UAAU,OAAO,QAAQ,gBAAgB,EAAE,QAAQ,CAAC,EAAE,CAAC;AAG7D,QAAQ,UAAU,CAAC,QAAQ,QAAQ;AACjC,MAAI,WAAW,cAAc;AAC3B,YAAQ,IAAI,YAAY;AAAA,EAC1B;AAEA,MAAI,WAAW,iBAAiB;AAC9B,YAAQ,IAAI,8CAA8C,KAAK,OAAO,EAAE;AAAA,EAC1E;AAEA,MAAI,WAAW,aAAa;AAC1B,YAAQ,IAAI,0CAA0C;AAAA,EACxD;AAEA,MAAI,WAAW,UAAU;AACvB,YAAQ,IAAI,2CAA2C;AAAA,EACzD;AACF,CAAC;",
+  "names": []
+}
